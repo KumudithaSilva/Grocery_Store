@@ -1,5 +1,0 @@
-# Ignore environment files
-*.env
-
-# IDE
-__pycache__
