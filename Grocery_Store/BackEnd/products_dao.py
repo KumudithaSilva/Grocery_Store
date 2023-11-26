@@ -52,18 +52,11 @@ def delete_products(connection, product_id):
 
 if __name__ == '__main__':
     connection = get_sql_connection()
-    print(update_products(connection, {
-       'id': 4,
-       'name' : 'cabbage',
-       'uom_id' : '1',
-       'price_per_unit' : '10'
-    }))
-
-    #if connection:
-    #   try:
-    #        print(get_all_products(connection))
-    #    finally:
-    #        connection.close()
+    if connection:
+       try:
+            print(get_all_products(connection))
+       finally:
+            connection.close()
 
     #(update_products(connection, {
     #   'id': 4,
