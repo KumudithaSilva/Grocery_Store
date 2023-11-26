@@ -1,0 +1,8 @@
+# Ignore environment files
+*.env
+
+# IDE
+__pycache__
+
+# RARs
+**/FrontEnd.rar
