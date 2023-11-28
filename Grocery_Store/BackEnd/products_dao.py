@@ -40,10 +40,10 @@ def update_products(connection, products):
    connection.commit()
 
 
-def delete_products(connection, product_id):
+def delete_products(connection, products_id):
    
    cursor = connection.cursor()
-   query = "DELETE FROM products WHERE products_id=" + str(product_id)
+   query = "DELETE FROM products WHERE products_id=" + str(products_id)
 
    cursor.execute(query)
    connection.commit()
@@ -54,6 +54,7 @@ if __name__ == '__main__':
     connection = get_sql_connection()
     if connection:
        try:
+            #delete_product(connection, 2)
             print(get_all_products(connection))
        finally:
             connection.close()
