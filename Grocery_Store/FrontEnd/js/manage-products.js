@@ -12,7 +12,6 @@ var productModal = $("#productModal");
                 });
                 $("table").find('tbody').empty().html(table);
             }
-            console.log(response)
         });
     });
 
