@@ -54,14 +54,18 @@ if __name__ == '__main__':
     connection = get_sql_connection()
     if connection:
        try:
+         (insert_products(connection, {
+            'name' : 'toothpast',
+            'uom_id' : '1',
+            'price_per_unit' : '300'
+         }))
             #delete_product(connection, 2)
-            print(get_all_products(connection))
+            #print(get_all_products(connection))
        finally:
             connection.close()
 
-    #(update_products(connection, {
-    #   'id': 4,
-    #   'name' : 'cabbage',
-    #   'uom_id' : '1',
-    #   'price_per_unit' : '100'
-    #}))
+         #(insert_products(connection, {
+         #   'name' : 'cabbage',
+         #   'uom_id' : '1',
+         #  'price_per_unit' : '100'
+         #}))
