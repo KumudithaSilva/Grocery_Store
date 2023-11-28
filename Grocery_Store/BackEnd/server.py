@@ -12,7 +12,7 @@ def get_products():
     products = products_dao.get_all_products(connection)
     
     response = jsonify(products)
-    response.headers.add('Acess-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Origin', '*')
 
     return response
 
