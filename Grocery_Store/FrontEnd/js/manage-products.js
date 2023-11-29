@@ -25,3 +25,21 @@ var productModal = $("#productModal");
             callApi("POST", productDeleteApiUrl, data);
         }
     });
+
+    productModal.on('show.bs.modal', function(){
+        $.get(uomListApiUrl, function(response){
+            if(response){
+                console.log(response)
+                var options = '<option value="">--Select--</option>';
+                $.each(response, function(index, uom){
+                    options += '<option value="' + uom.uom_id +'">'+ uom.um_name +'</option>';
+                });
+                $("#uoms").empty().html(options);
+            }
+            
+        })
+    });
+    
+
+    
+ 
