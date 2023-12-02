@@ -27,18 +27,19 @@ var productModal = $("#productModal");
         }
     });
 
-
+    
     productModal.on('hide.bs.modal', function(){
         $('#id').val('0');
         $('#name', '#umos', '#price').val('');
-        productModal.find('.modal-title').text('Add New Products')
+
+        clear();  
+        window.location.reload(); 
     });
 
 
     productModal.on('show.bs.modal', function(){
         $.get(uomListApiUrl, function(response){
             if(response){
-                console.log(response)
                 var options = '<option value="">--Select--</option>';
                 $.each(response, function(index, uom){
                     options += '<option value="' + uom.uom_id +'">'+ uom.um_name +'</option>';
@@ -73,17 +74,21 @@ var productModal = $("#productModal");
             }
         }
 
-        callApi('POST', productInsertApiUrl, {
+        callinsertApi('POST', productInsertApiUrl, {
             'data': JSON.stringify(requestPayload)
         });
 
-        window.addEventListener("beforeunload", clear);
+        clear();
     });
 
 
     function clear() {
         document.getElementById("name").value = "";
         document.getElementById("price").value = "";
+
+        var uomsSelect = document.getElementById("uoms");
+        uomsSelect.selectedIndex = 0;
+        
     }
 
     
