@@ -15,6 +15,40 @@ var productModal = $("#productModal");
         });
     });
 
+    
+    $(document).on("click", ".delete-product", function (){
+        var tr = $(this).closest('tr');
+        var data = {
+            product_id : tr.data('id')
+        };
+        var isDelete = confirm("Are you sure to delete "+ tr.data('name') +" item?");
+        if (isDelete) {
+            callApi("POST", productDeleteApiUrl, data);
+        }
+    });
+
+
+    productModal.on('hide.bs.modal', function(){
+        $('#id').val('0');
+        $('#name', '#umos', '#price').val('');
+        productModal.find('.modal-title').text('Add New Products')
+    });
+
+
+    productModal.on('show.bs.modal', function(){
+        $.get(uomListApiUrl, function(response){
+            if(response){
+                console.log(response)
+                var options = '<option value="">--Select--</option>';
+                $.each(response, function(index, uom){
+                    options += '<option value="' + uom.uom_id +'">'+ uom.um_name +'</option>';
+                });
+                $("#uoms").empty().html(options);
+            }
+            
+        })
+    });
+
 
     $('#saveProduct').on("click", function() {
         var data = $('#productForm').serializeArray();
@@ -42,34 +76,16 @@ var productModal = $("#productModal");
         callApi('POST', productInsertApiUrl, {
             'data': JSON.stringify(requestPayload)
         });
+
+        window.addEventListener("beforeunload", clear);
     });
 
 
-    $(document).on("click", ".delete-product", function (){
-        var tr = $(this).closest('tr');
-        var data = {
-            product_id : tr.data('id')
-        };
-        var isDelete = confirm("Are you sure to delete "+ tr.data('name') +" item?");
-        if (isDelete) {
-            callApi("POST", productDeleteApiUrl, data);
-        }
-    });
+    function clear() {
+        document.getElementById("name").value = "";
+        document.getElementById("price").value = "";
+    }
 
-    productModal.on('show.bs.modal', function(){
-        $.get(uomListApiUrl, function(response){
-            if(response){
-                console.log(response)
-                var options = '<option value="">--Select--</option>';
-                $.each(response, function(index, uom){
-                    options += '<option value="' + uom.uom_id +'">'+ uom.um_name +'</option>';
-                });
-                $("#uoms").empty().html(options);
-            }
-            
-        })
-    });
     
-
     
  
