@@ -15,6 +15,36 @@ var productModal = $("#productModal");
         });
     });
 
+
+    $('#saveProduct').on("click", function() {
+        var data = $('#productForm').serializeArray();
+        var requestPayload = {
+            name: null,
+            uom_id: null,
+            price_per_unit: null
+        };
+
+        for (var i=0; i<data.length; ++i){
+            var element = data[i];
+
+            switch(element.name){
+                case 'name':
+                    requestPayload.name = element.value;
+                    break;
+                case 'uoms':
+                    requestPayload.uom_id = element.value;
+                case 'price':
+                        requestPayload.price_per_unit = element.value;
+                    
+            }
+        }
+
+        callApi('POST', productInsertApiUrl, {
+            'data': JSON.stringify(requestPayload)
+        });
+    });
+
+
     $(document).on("click", ".delete-product", function (){
         var tr = $(this).closest('tr');
         var data = {
