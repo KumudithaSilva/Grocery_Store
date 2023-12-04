@@ -7,8 +7,8 @@ var productModal = $("#productModal");
                     table += '<tr data-id="'+ product.products_id +'" data-name="'+ product.name +'" data-unit="'+ product.uom_id +'" data-price="'+ product.price_per_unit +'">' +
                         '<td>'+ product.name +'</td>'+
                         '<td>'+ product.uom_name +'</td>'+
-                        '<td>'+ product.price_per_unit +'</td>'+
-                        '<td><span class="btn btn-xs btn-danger delete-product">Delete</span></td></tr>';
+                        '<td>$'+ product.price_per_unit +'</td>'+
+                        '<td><span class="btn btn-xs btn-danger delete-product">Delete</span> <span class="btn btn-xs btn-info update-product" style="margin-left: 7px;">Update</span></td></tr>';
                 });
                 $("table").find('tbody').empty().html(table);
             }
@@ -25,6 +25,28 @@ var productModal = $("#productModal");
         if (isDelete) {
             callApi("POST", productDeleteApiUrl, data);
         }
+    });
+
+
+    $(document).on("click", ".update-product", function (){
+        var tr = $(this).closest('tr');
+        var data = {
+            product_id : tr.data('id'),
+            product_name : tr.data('name'),
+            uom_id : tr.data('unit'),
+            uom_name : tr.find('td:eq(1)').text(),
+            price_per_unit : tr.data('price')
+        };
+
+        productModal.modal('show');
+
+        productModal.find('#id').val(data.product_id);
+        productModal.find('#name').val(data.product_name);
+        productModal.find('#uoms').val(data.uom_id);
+        productModal.find('#price').val(data.price_per_unit);
+    
+        console.log(data);
+
     });
 
     
@@ -79,6 +101,7 @@ var productModal = $("#productModal");
         });
 
         clear();
+        
     });
 
 
