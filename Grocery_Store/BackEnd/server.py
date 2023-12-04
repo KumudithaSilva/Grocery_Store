@@ -34,6 +34,20 @@ def insert_products():
     return response
 
 
+@app.route('/updateproducts', methods=['POST'])
+def update_products():
+
+    request_payload = json.loads(request.form['data'])
+
+    products = products_dao.update_products(connection, request_payload)
+    response = jsonify({
+        'products' : products
+        })
+    response.headers.add('Access-Control-Allow-Origin', '*')
+
+    return response
+
+
 @app.route('/deleteproducts', methods=['POST'])
 def delete_products():
 
