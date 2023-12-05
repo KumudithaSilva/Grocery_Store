@@ -3524,7 +3524,7 @@ p {
 }
 
 .zmdi-view-dashboard {
-    color: #ea2c2c !important;
+    color: #2370e4 !important;
 }
 
 .zmdi-assignment {
@@ -3965,3 +3965,4 @@ table.dataTable.table-condensed .sorting:after, table.dataTable.table-condensed 
 .right{
     overflow: inherit;
 }
+
