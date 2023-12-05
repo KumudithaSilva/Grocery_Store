@@ -1,4 +1,7 @@
 var productModal = $("#productModal");
+
+updatehide();
+
     $(function () {
         $.get(productListApiUrl, function (response) {
             if(response) {
@@ -44,8 +47,9 @@ var productModal = $("#productModal");
         productModal.find('#name').val(data.product_name);
         productModal.find('#uoms').val(data.uom_id);
         productModal.find('#price').val(data.price_per_unit);
-    
-        console.log(data);
+
+        $('.modal-title').text('Update Product');
+        updateshow();
 
     });
 
@@ -112,6 +116,18 @@ var productModal = $("#productModal");
         var uomsSelect = document.getElementById("uoms");
         uomsSelect.selectedIndex = 0;
         
+    }
+
+
+    function updatehide() {
+        $('#updateProduct').hide();
+        $('#saveProduct').show();
+    }
+
+    
+    function updateshow() {
+        $('#updateProduct').show();
+        $('#saveProduct').hide();
     }
 
     
