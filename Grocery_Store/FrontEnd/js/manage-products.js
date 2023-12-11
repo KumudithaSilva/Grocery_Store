@@ -51,9 +51,43 @@ updatehide();
         $('.modal-title').text('Update Product');
         updateshow();
 
+        $('#updateProduct').on("click", function() {
+            var data = $('#productForm').serializeArray();
+            var requestPayload = {
+                product_id: null,
+                name: null,
+                uom_id: null,
+                price_per_unit: null
+            };
+    
+            requestPayload.product_id = tr.data('id');
+    
+            for (var i=0; i<data.length; ++i){
+                var element = data[i];
+    
+                switch(element.name){
+                    case 'name':
+                        requestPayload.name = element.value;
+                        break;
+                    case 'uoms':
+                        requestPayload.uom_id = element.value;
+                        break;
+                    case 'price':
+                        requestPayload.price_per_unit = element.value;
+                        
+                }
+            }
+    
+            callApi('POST', productUpdateApiUrl, {
+                'data': JSON.stringify(requestPayload)
+            });
+    
+            clear();
+
+        });
     });
 
-    
+
     productModal.on('hide.bs.modal', function(){
         $('#id').val('0');
         $('#name', '#umos', '#price').val('');
@@ -94,6 +128,7 @@ updatehide();
                     break;
                 case 'uoms':
                     requestPayload.uom_id = element.value;
+                    break;
                 case 'price':
                         requestPayload.price_per_unit = element.value;
                     
