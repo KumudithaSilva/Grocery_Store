@@ -32,8 +32,8 @@ updatehide();
 
 
     $(document).on("click", ".update-product", function (){
-        var tr = $(this).closest('tr');
-        var data = {
+        const tr = $(this).closest('tr');
+        const data = {
             product_id : tr.data('id'),
             product_name : tr.data('name'),
             uom_id : tr.data('unit'),
@@ -41,53 +41,62 @@ updatehide();
             price_per_unit : tr.data('price')
         };
 
-        productModal.modal('show');
+        showProductModel(data);
 
+        $('#updateProduct').on("click", function(){
+            updateProduct(tr);
+        });
+    });
+
+    
+    function showProductModel(data){
+        productModal.modal('show');
+        
         productModal.find('#id').val(data.product_id);
         productModal.find('#name').val(data.product_name);
         productModal.find('#uoms').val(data.uom_id);
         productModal.find('#price').val(data.price_per_unit);
-
+    
         $('.modal-title').text('Update Product');
         updateshow();
+    }
 
-        $('#updateProduct').on("click", function() {
-            var data = $('#productForm').serializeArray();
-            var requestPayload = {
-                product_id: null,
-                name: null,
-                uom_id: null,
-                price_per_unit: null
-            };
-    
-            requestPayload.product_id = tr.data('id');
-    
-            for (var i=0; i<data.length; ++i){
-                var element = data[i];
-    
-                switch(element.name){
-                    case 'name':
-                        requestPayload.name = element.value;
-                        break;
-                    case 'uoms':
-                        requestPayload.uom_id = element.value;
-                        break;
-                    case 'price':
-                        requestPayload.price_per_unit = element.value;
+    function updateProduct(tr){
+        const data = $('#productForm').serializeArray();
+        const requestPayload = {
+            product_id: null,
+            name: null,
+            uom_id: null,
+            price_per_unit: null
+        };
+        
+        requestPayload.product_id = tr.data('id');
+        
+        for (var i=0; i<data.length; ++i){
+            var element = data[i];
+            
+            switch(element.name){
+                case 'name':
+                    requestPayload.name = element.value;
+                    break;
+                case 'uoms':
+                    requestPayload.uom_id = element.value;
+                    break;
+                case 'price':
+                    requestPayload.price_per_unit = element.value;
                         
                 }
             }
-    
+            
             callApi('POST', productUpdateApiUrl, {
                 'data': JSON.stringify(requestPayload)
             });
     
             clear();
 
-        });
-    });
+    }
 
-
+    
     productModal.on('hide.bs.modal', function(){
         $('#id').val('0');
         $('#name', '#umos', '#price').val('');
