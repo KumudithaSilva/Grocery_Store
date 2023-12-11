@@ -33,9 +33,9 @@ def insert_products(connection, products):
 def update_products(connection, products):
    
    cursor = connection.cursor()
-   query = "UPDATE products SET name=%s, uom_id=%s, price_per_unit=%s WHERE products_id=" + str(products['id'])
+   query = "UPDATE products SET name=%s, uom_id=%s, price_per_unit=%s WHERE products_id=%s"
 
-   data = (products['name'], products['uom_id'], products['price_per_unit'])
+   data = (products['name'], products['uom_id'], products['price_per_unit'], products['product_id'])
    cursor.execute(query, data)
    connection.commit()
 
