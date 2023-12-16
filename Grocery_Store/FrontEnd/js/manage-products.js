@@ -139,7 +139,7 @@ updatehide();
                     requestPayload.uom_id = element.value;
                     break;
                 case 'price':
-                        requestPayload.price_per_unit = element.value;
+                    requestPayload.price_per_unit = element.value;
                     
             }
         }
