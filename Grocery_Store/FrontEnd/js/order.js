@@ -35,11 +35,40 @@ $(function(){
 
 $(document).on("change", ".cart-product", function(){
     product_id = $(this).val()
-    console.log(product_id)
-
     product_price = products_prices[parseInt(product_id)];
     
     $(this).closest('.row').find('#product_price').val(product_price)
-    console.log(product_price)
+});
+
+
+$(document).on("click", "#detailsPrint", function(){
+    var formData = $("form").serializeArray();
+
+    var products_details = []
+    var products_qty = []
+
+    $("select[name='product'] option:selected").each(function() {
+        var productName = $(this).text().trim();
+
+        if (productName !== "--Select--") {
+            products_details.push(productName);
+        }
+    });
+
+    for(var i=0; i<formData.length;i++){
+        var element = formData[i];
+
+        switch(element.name){
+
+            case "qty":
+                var quantity = element.value;
+                products_qty.push(quantity);
+                break;
+        }
+    }
+
+    var details = products_details.map((value, index) => ({ product: value, quantity: products_qty[index] }));
+    console.log(details);
+    console.log(details[1]);
 });
 
