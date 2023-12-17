@@ -13,7 +13,7 @@ updatehide();
                         '<td>$'+ product.price_per_unit +'</td>'+
                         '<td><span class="btn btn-xs btn-danger delete-product">Delete</span> <span class="btn btn-xs btn-info update-product" style="margin-left: 7px;">Update</span></td></tr>';
                 });
-                $("table").find('tbody').empty().html(table);
+                $("#productTable").find('tbody').empty().html(table);
             }
         });
     });
