@@ -86,4 +86,24 @@ orderModal.on('show.bs.modal', function(){
 });
 
 
+$('#orderPrint').on("click", function(){
+    var currentDate = new Date();
+    var formattedDate = currentDate.toLocaleDateString('en-US');
+
+    document.getElementById('currentDate').textContent = formattedDate;
+    const table = document.getElementById("orderDetails");
+
+    var opt = {
+        margin: 1,
+        filename: 'Order-'+formattedDate,
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+    };
+
+    html2pdf().from(table).set(opt).save();
+});
+
+
+
+
 
