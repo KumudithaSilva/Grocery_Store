@@ -1,51 +1,23 @@
-$('#addMoreButton').click(function(){
-    var row = $(".product-box").html();
-
-    $('.product-box-extra').append(row);
-
-    $('.product-box-extra .remove-row').last().removeClass('hideit');
-    $('.product-box-extra .product-price').last().text('0.0');
-    $('.product-box-extra .product-qty').last().val("1")
-    $('.product-box-extra .product-total').text('0.0');
-
-});
-
-
-$(document).on("click", '.remove-row', function(){
-    $(this).closest('.row').remove();
-});
-
-
 $(function(){
     $.get(productListApiUrl, function(response){
         if(response){
-            products_prices = {}
-            var options = '<option value="">--Select--</options>'
+            products_prices = {};
+            var options = '<option value="">--Select--</options>';
+            
             $.each(response, function(index, products){
-                options += '<option value=" '+products.products_id + '">'+ products.name + '</options>';
-                products_prices[products.products_id]= products.price_per_unit
+                options += '<option value="'+ products.products_id + '">'+ products.name + '</option>';
+                products_prices[products.products_id] = products.price_per_unit;
             });
-
         }
-        $('.product-box').find("select").empty().html(options);
 
+        $('.product-box').find("select").empty().html(options);
     });
 });
 
-
-$(document).on("change", ".cart-product", function(){
-    product_id = $(this).val()
-    product_price = products_prices[parseInt(product_id)];
-    
-    $(this).closest('.row').find('#product_price').val(product_price)
-});
-
-
-$(document).on("click", "#detailsPrint", function(){
+function fetchDetails(){
     var formData = $("form").serializeArray();
-
-    var products_details = []
-    var products_qty = []
+    var products_details = [];
+    var products_qty = [];
 
     $("select[name='product'] option:selected").each(function() {
         var productName = $(this).text().trim();
@@ -55,11 +27,10 @@ $(document).on("click", "#detailsPrint", function(){
         }
     });
 
-    for(var i=0; i<formData.length;i++){
+    for(var i=0; i<formData.length; i++){
         var element = formData[i];
 
         switch(element.name){
-
             case "qty":
                 var quantity = element.value;
                 products_qty.push(quantity);
@@ -68,7 +39,37 @@ $(document).on("click", "#detailsPrint", function(){
     }
 
     var details = products_details.map((value, index) => ({ product: value, quantity: products_qty[index] }));
-    console.log(details);
-    console.log(details[1]);
+    return details;
+}
+
+$('#addMoreButton').click(function(){
+    var row = $(".product-box").html();
+
+    $('.product-box-extra').append(row);
+
+    $('.product-box-extra .remove-row').last().removeClass('hideit');
+    $('.product-box-extra .product-price').last().text('0.0');
+    $('.product-box-extra .product-qty').last().val("1");
+    $('.product-box-extra .product-total').text('0.0');
 });
 
+$(document).on("click", '.remove-row', function(){
+    $(this).closest('.row').remove();
+});
+
+$(document).on("change", ".cart-product", function(){
+    var product_id = $(this).val();
+    var product_price = products_prices[parseInt(product_id)];
+    
+    $(this).closest('.row').find('#product_price').val(product_price);
+});
+
+$(document).on("click", "#detailsPrint", function() {
+    var detailsArray = fetchDetails();
+    
+    //var pdf = new window.jspdf.jsPDF();
+    //pdf.text(detailsArray, 10, 10);
+    //pdf.save('details.pdf');
+
+    console.log(detailsArray);
+});
