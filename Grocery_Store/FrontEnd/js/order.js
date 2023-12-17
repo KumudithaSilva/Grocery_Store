@@ -1,3 +1,5 @@
+var orderModal = $("#orderModal");
+
 $(function(){
     $.get(productListApiUrl, function(response){
         if(response){
@@ -69,22 +71,17 @@ $(document).on("change", ".cart-product", function(){
 });
 
 
-$(document).on("click", "#detailsPrint", function () {
+orderModal.on('show.bs.modal', function(){
     var detailsArray = fetchDetails();
 
+    var tableBody = $('#orderTable tbody');
+    tableBody.empty();
+
     if (detailsArray) {
-        var pdf = new window.jspdf.jsPDF();
-
-        //pdf.setFontSize(14);
-        //pdf.text("Order Details", 20, 20);
-       // pdf.text("--------------", 20, 24);
-
         detailsArray.forEach(function (item) {
-            console.log(item.product);
-            console.log(item.quantity);
+            var row = '<tr><td>' + item.product + '</td><td>' + item.quantity + '</td></tr>';
+            tableBody.append(row);
         });
-
-        //pdf.save('order_details.pdf');
     }
 });
 
