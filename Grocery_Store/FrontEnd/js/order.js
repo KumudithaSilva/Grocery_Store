@@ -14,6 +14,7 @@ $(function(){
     });
 });
 
+
 function fetchDetails(){
     var formData = $("form").serializeArray();
     var products_details = [];
@@ -42,6 +43,7 @@ function fetchDetails(){
     return details;
 }
 
+
 $('#addMoreButton').click(function(){
     var row = $(".product-box").html();
 
@@ -53,9 +55,11 @@ $('#addMoreButton').click(function(){
     $('.product-box-extra .product-total').text('0.0');
 });
 
+
 $(document).on("click", '.remove-row', function(){
     $(this).closest('.row').remove();
 });
+
 
 $(document).on("change", ".cart-product", function(){
     var product_id = $(this).val();
@@ -64,12 +68,25 @@ $(document).on("change", ".cart-product", function(){
     $(this).closest('.row').find('#product_price').val(product_price);
 });
 
-$(document).on("click", "#detailsPrint", function() {
-    var detailsArray = fetchDetails();
-    
-    //var pdf = new window.jspdf.jsPDF();
-    //pdf.text(detailsArray, 10, 10);
-    //pdf.save('details.pdf');
 
-    console.log(detailsArray);
+$(document).on("click", "#detailsPrint", function () {
+    var detailsArray = fetchDetails();
+
+    if (detailsArray) {
+        var pdf = new window.jspdf.jsPDF();
+
+        //pdf.setFontSize(14);
+        //pdf.text("Order Details", 20, 20);
+       // pdf.text("--------------", 20, 24);
+
+        detailsArray.forEach(function (item) {
+            console.log(item.product);
+            console.log(item.quantity);
+        });
+
+        //pdf.save('order_details.pdf');
+    }
 });
+
+
+
