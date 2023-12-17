@@ -110,18 +110,20 @@
             <div class="modal fade-scale" id="orderModal" role="dialog" data-backdrop="static">
                 <div class="modal-dialog ">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Receipt</h4>
-                        </div>
-                        <div class="modal-body">
-                            <table class="table table-bordered" id="orderTable">
-                                <thead>
-                                <th>Product</th>
-                                <th>Quantity</th>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                            </table>
+                        <div id="orderDetails">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Receipt <span id="currentDate"></span></h4>
+                            </div>
+                            <div class="modal-body">
+                                <table class="table table-bordered" id="orderTable">
+                                    <thead>
+                                    <th>Product</th>
+                                    <th>Quantity</th>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -137,6 +139,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="pdf.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
 <script src="../js/common.js"></script>
 <script src="../js/order.js"></script>
 </html>
