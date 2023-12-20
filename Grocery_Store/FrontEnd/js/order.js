@@ -66,8 +66,18 @@ $(document).on("click", '.remove-row', function(){
 $(document).on("change", ".cart-product", function(){
     var product_id = $(this).val();
     var product_price = products_prices[parseInt(product_id)];
-    
     $(this).closest('.row').find('#product_price').val(product_price);
+
+});
+
+
+$(document).on("change", ".row", function(){
+    var price = $(this).closest('.row').find('#product_price').val();
+    var quantity = $(this).closest('.row').find('.product-qty').val();
+
+    item_total = (price * quantity).toFixed(2);
+
+    $(this).closest('.row').find('#item_total').val(item_total);
 });
 
 
