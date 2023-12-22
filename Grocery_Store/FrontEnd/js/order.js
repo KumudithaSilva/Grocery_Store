@@ -18,8 +18,10 @@ $(function(){
 
 function fetchAllDetails() {
     var formData = $("form").serializeArray();
+    console.log(formData)
     var products_details = [];
     var products_qty = [];
+    var products_comment = [];
 
     var products_alldetails = {};
     var total = 0;
@@ -47,6 +49,10 @@ function fetchAllDetails() {
                 var quantity = element.value;
                 products_qty.push(quantity);
                 break;
+            case "comment":
+                var comment = element.value;
+                products_comment.push(comment);
+                break;
         }
     }
 
@@ -55,7 +61,7 @@ function fetchAllDetails() {
             total += parseFloat(products_alldetails[productId]);
         }
     }
-    var details = products_details.map((value, index) => ({ product: value, quantity: products_qty[index] }));
+    var details = products_details.map((value, index) => ({ product: value, quantity: products_qty[index], comment: products_comment[index] }));
     $('#product_grand_total').val(parseFloat(total).toFixed(2));
     return details;
 }
@@ -108,7 +114,7 @@ orderModal.on('show.bs.modal', function(){
 
     if (detailsArray) {
         detailsArray.forEach(function (item) {
-            var row = '<tr><td>' + item.product + '</td><td>' + item.quantity + '</td></tr>';
+            var row = '<tr><td>' + item.product + '</td><td>' + item.quantity + '</td>' + '</td><td>' + item.comment + '</td></tr>';
             tableBody.append(row);
         });
     }
