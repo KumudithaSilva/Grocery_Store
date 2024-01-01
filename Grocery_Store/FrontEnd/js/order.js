@@ -8,7 +8,7 @@ $(function(){
             
             $.each(response, function(index, products){
                 options += '<option value="'+ products.products_id + '">'+ products.name + '</option>';
-                products_prices[products.products_id] = products.price_per_unit;
+                products_prices[products.products_id] = (products.price_per_unit * 365).toFixed(2);
             });
         }
         $('.product-box').find("select").empty().html(options);
@@ -18,7 +18,6 @@ $(function(){
 
 function fetchAllDetails() {
     var formData = $("form").serializeArray();
-    console.log(formData)
     var products_details = [];
     var products_qty = [];
     var products_comment = [];
@@ -136,4 +135,67 @@ $('#orderPrint').on("click", function(){
     };
 
     html2pdf().from(table).set(opt).save();
+});
+
+
+$('#saveOrder').on("click", function(){
+    var formData = $("form").serializeArray();
+
+    var currentDate = new Date();
+    var formattedDate = currentDate.toISOString().slice(0, 19).replace('T', ' ');
+
+    var requestPayload = {
+        customer_name : null,
+        total : null,
+        datetime: formattedDate,
+        order_details : []
+    };
+
+    for(var i=0; i<formData.length; ++i){
+        var element = formData[i];
+        var lastElement = null;
+
+        switch (element.name) {
+            case "customerName":
+                requestPayload.customer_name = element.value;
+                break;
+            case "product_grand_total":
+                requestPayload.total = element.value
+                break;
+            case "product":
+                requestPayload.order_details.push({
+                    product_id:element.value,
+                    quantity:null, 
+                    total_price:null
+                });
+                break;
+            case "qty":
+                lastElement = requestPayload.order_details[requestPayload.order_details.length-1];
+                lastElement.quantity = element.value
+                break;
+            case "item_total":
+                lastElement = requestPayload.order_details[requestPayload.order_details.length-1];
+                lastElement.total_price = element.value
+                break;
+        }
+
+    }
+    callApi("POST", orderInsertApiUrl, {
+        'data': JSON.stringify(requestPayload)
+    });
+});
+
+
+window.addEventListener('load', function (event) {
+
+   $('#customerName').val('');
+   
+    $(this).closest('.row').remove();
+
+    $('.product-box-extra .remove-row').last().removeClass('hideit');
+    $('.product-box-extra .product-price').last().text('0.0');
+    $('.product-box-extra .product-qty').last().val("1");
+    $('.product-box-extra .product-total').text('0.0');
+
+    $('#product_grand_total').val('0.0');
 });
