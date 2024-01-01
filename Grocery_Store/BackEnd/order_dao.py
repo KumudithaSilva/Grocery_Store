@@ -6,7 +6,7 @@ def insert_order(connection, order):
     cursor = connection.cursor()
 
     order_query = ("INSERT INTO orders (customer_name, total, datetime) values (%s, %s, %s)")
-    order_data = (order['customer_name'], order['grand_total'], order['datetime'])
+    order_data = (order['customer_name'], order['total'], order['datetime'])
 
     cursor.execute(order_query, order_data)
     order_id = cursor.lastrowid
@@ -27,7 +27,6 @@ def insert_order(connection, order):
         )
 
     cursor.executemany(order_details_query, order_details_data)
-
     connection.commit()
 
 
